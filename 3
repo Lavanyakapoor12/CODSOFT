@@ -1,0 +1,49 @@
+#CODSOFT
+import random
+import string
+
+def generate_password(length, include_uppercase=True, include_numbers=True, include_symbols=True):
+    # Define character sets based on user preferences
+    lowercase = string.ascii_lowercase
+    uppercase = string.ascii_uppercase if include_uppercase else ''
+    numbers = string.digits if include_numbers else ''
+    symbols = string.punctuation if include_symbols else ''
+    
+    # Combine all the characters
+    all_characters = lowercase + uppercase + numbers + symbols
+    
+    # Ensure the password is generated from available characters
+    if not all_characters:
+        return "Error: At least one character type must be selected."
+
+    # Generate password
+    password = ''.join(random.choice(all_characters) for _ in range(length))
+    
+    return password
+
+def main():
+    print("Welcome to the Password Generator")
+    
+    # Get user input for password length
+    while True:
+        try:
+            length = int(input("Enter the desired length of the password (minimum 1): "))
+            if length < 1:
+                raise ValueError("Length must be at least 1.")
+            break
+        except ValueError as e:
+            print(e)
+    
+    # Get user preferences for password complexity
+    include_uppercase = input("Include uppercase letters? (y/n): ").lower() == 'y'
+    include_numbers = input("Include numbers? (y/n): ").lower() == 'y'
+    include_symbols = input("Include symbols? (y/n): ").lower() == 'y'
+    
+    # Generate password
+    password = generate_password(length, include_uppercase, include_numbers, include_symbols)
+    
+    # Display the generated password
+    print("Generated Password:", password)
+
+if __name__ == "__main__":
+    main()
